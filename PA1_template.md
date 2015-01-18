@@ -284,6 +284,6 @@ result2
 It is evident from the data that the activity spike is low during weekends and also the beginning of the activity starts a little later in the morning compared to weekdays. 
 
 Weekdays:  Max mean steps/interval = 230    and the interval = 8:35 AM
-Weekends:  Max mean steps/interval = 167    and the interval = 9:16 AM
+Weekends:  Max mean steps/interval = 167    and the interval = 9:15 AM
 
 --end--
