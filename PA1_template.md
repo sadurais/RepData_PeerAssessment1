@@ -103,7 +103,7 @@ df <- df[complete.cases(df), ]  # Throw away NA values
 tot_steps_per_day <- tapply(df$steps, df$date, sum)
 
 #Calculate and report the mean and median total number of steps taken per day
-summary(tot_steps_per_day)[3:4]  # Median and Mean
+summary(tot_steps_per_day)[3:4]  # Median 10760 and Mean 10770
 ```
 
 ```
@@ -113,13 +113,43 @@ summary(tot_steps_per_day)[3:4]  # Median and Mean
 
 ```r
 # Make a histogram of the total number of steps taken each day.
-histogram(tot_steps_per_day, xlab="Total Steps per day",
+histogram(tot_steps_per_day, xlab="Total Steps per day (NA values removed)",
           ylab="Frequency (ie. Percent of Total)")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
-The Median and Mean of the total steps taken per day are: 10760 and 10770 
-respectively as shown by the 'summary' output above.
+
+```r
+# Question 1 Part 2: Now lets impute the NA values and redo the hist again
+df <- readData(sanitizeAndImpute=TRUE)
+df <- df[complete.cases(df), ]  # Throw away NA values
+
+tot_steps_per_day <- tapply(df$steps, df$date, sum)
+
+#Calculate and report the mean and median total number of steps taken per day
+summary(tot_steps_per_day)[3:4]  # Median and Mean
+```
+
+```
+## Median   Mean 
+##  10770  10770
+```
+
+```r
+# Make a histogram of the total number of steps taken each day.
+histogram(tot_steps_per_day, xlab="Total Steps per day (NA values imputed)",
+          ylab="Frequency (ie. Percent of Total)")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-3-2.png) 
+
+Total steps taken per day (with NA values removed):
+   Median = 10760 and Mean = 10770
+Total steps taken per day (with NA values imputed):
+   Median = 10770 and Mean = 10770
+   
+These can be confirmed from the two summary outputs listed above.
+
 
 
 ## Question 2: What is the average daily activity pattern?
@@ -229,9 +259,9 @@ act_wd <- act[weekday_rows, ]
 act_we <- act[!weekday_rows, ]
 
 df <- group_by_interval(act_wd); df$day_type <- "weekday"
-result1 <- df[df$steps_pi == max(df$steps_pi), c("steps_pi", "int_str")]
+result_weekday <- df[df$steps_pi == max(df$steps_pi), c("steps_pi", "int_str")]
 df2 <- group_by_interval(act_we); df2$day_type <- "weekend"
-result2 <- df2[df2$steps_pi == max(df2$steps_pi), c("steps_pi", "int_str")]
+result_weekend <- df2[df2$steps_pi == max(df2$steps_pi), c("steps_pi", "int_str")]
 
 df <- rbind(df, df2)
 
@@ -256,7 +286,7 @@ print("Max mean steps/interval and the interval for weekdays: ")
 ```
 
 ```r
-result1
+result_weekday
 ```
 
 ```
@@ -273,7 +303,7 @@ print("Max mean steps/interval and the interval for weekdends: ")
 ```
 
 ```r
-result2
+result_weekend
 ```
 
 ```
